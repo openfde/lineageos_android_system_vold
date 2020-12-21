@@ -238,7 +238,10 @@ static int process_config(VolumeManager* vm, bool* has_adoptable, bool* has_quot
 
         /* Make sure logical partitions have an updated blk_device. */
         if (entry.fs_mgr_flags.logical && !fs_mgr_update_logical_partition(&entry)) {
-            PLOG(FATAL) << "could not find logical partition " << entry.blk_device;
+            //PLOG(FATAL) << "could not find logical partition " << entry.blk_device;
+            // Halium: make it non-fatal
+            PLOG(ERROR) << "could not find logical partition " << entry.blk_device;
+            continue;
         }
 
         if (entry.fs_mgr_flags.vold_managed) {
