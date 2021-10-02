@@ -272,6 +272,10 @@ static bool parse_options(const std::string& options_string, CryptoOptions* opti
 bool fscrypt_mount_metadata_encrypted(const std::string& blk_device, const std::string& mount_point,
                                       bool needs_encrypt) {
     LOG(DEBUG) << "fscrypt_mount_metadata_encrypted: " << mount_point << " " << needs_encrypt;
+
+    // Disabled for Halium
+    return false;
+
     auto encrypted_state = android::base::GetProperty("ro.crypto.state", "");
     if (encrypted_state != "" && encrypted_state != "encrypted") {
         LOG(DEBUG) << "fscrypt_enable_crypto got unexpected starting state: " << encrypted_state;

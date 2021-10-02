@@ -1,4 +1,4 @@
-service wait_for_keymaster /system/bin/wait_for_keymaster
+service wait_for_keymaster /system/bin/wait_for_keymaster_DISABLED
     user root
     group root system
     priority -20
