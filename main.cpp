@@ -219,6 +219,8 @@ static int process_config(VolumeManager* vm, bool* has_adoptable, bool* has_quot
                           bool* has_reserved) {
     ATRACE_NAME("process_config");
 
+    if (1) return 0;
+
     if (!ReadDefaultFstab(&fstab_default)) {
         PLOG(ERROR) << "Failed to open default fstab";
         return -1;
