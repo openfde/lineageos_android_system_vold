@@ -1399,6 +1399,7 @@ bool writeStringToFile(const std::string& payload, const std::string& filename) 
 }
 
 status_t AbortFuseConnections() {
+    return OK;
     namespace fs = std::filesystem;
 
     for (const auto& itEntry : fs::directory_iterator("/sys/fs/fuse/connections")) {
