@@ -405,7 +405,6 @@ status_t EmulatedVolume::doMount() {
             unmountSdcardFs();
         };
         auto sdcardfs_guard = android::base::make_scope_guard(sdcardfs_unmounter);
-
         LOG(INFO) << "Mounting emulated fuse volume";
         android::base::unique_fd fd;
         int user_id = getMountUserId();
@@ -449,6 +448,29 @@ status_t EmulatedVolume::doMount() {
             res = mountFuseBindMounts();
             if (res != OK) {
                 return res;
+            }
+	    int timeout = 5000;
+            while (timeout > 0) {
+                bool found = false;
+                FILE* mounts = fopen("/proc/mounts", "r");
+                if (mounts) {
+                    char line[512];
+                    while (fgets(line, sizeof(line), mounts)) {
+                        if (strstr(line, "fde_ptfs") != nullptr) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    fclose(mounts);
+                } else {
+                    PLOG(ERROR) << "Failed to open /proc/mounts";
+                }
+                if (found) {
+                    break;
+                }
+                LOG(DEBUG) << "Waiting for /mnt/pass_through/0/emulated to appear in /proc/mounts...";
+                timeout -= 50;
+                usleep(50000);  // 50ms
             }
         }
 
