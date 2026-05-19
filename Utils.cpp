@@ -230,24 +230,24 @@ int SetQuotaInherit(const std::string& path) {
 int SetQuotaProjectId(const std::string& path, long projectId) {
     struct fsxattr fsx;
 
-    android::base::unique_fd fd(TEMP_FAILURE_RETRY(open(path.c_str(), O_RDONLY | O_CLOEXEC)));
-    if (fd == -1) {
-        PLOG(ERROR) << "Failed to open " << path << " to set project id.";
-        return -1;
-    }
-
-    int ret = ioctl(fd, FS_IOC_FSGETXATTR, &fsx);
-    if (ret == -1) {
-        PLOG(ERROR) << "Failed to get extended attributes for " << path << " to get project id.";
-        return ret;
-    }
-
-    fsx.fsx_projid = projectId;
-    ret = ioctl(fd, FS_IOC_FSSETXATTR, &fsx);
-    if (ret == -1) {
-        PLOG(ERROR) << "Failed to set project id on " << path;
-        return ret;
-    }
+//    android::base::unique_fd fd(TEMP_FAILURE_RETRY(open(path.c_str(), O_RDONLY | O_CLOEXEC)));
+//    if (fd == -1) {
+//        PLOG(ERROR) << "Failed to open " << path << " to set project id.";
+//        return -1;
+//    }
+//
+//    int ret = ioctl(fd, FS_IOC_FSGETXATTR, &fsx);
+//    if (ret == -1) {
+//        PLOG(ERROR) << "Failed to get extended attributes for " << path << " to get project id.";
+//        return ret;
+//    }
+//
+//    fsx.fsx_projid = projectId;
+//    ret = ioctl(fd, FS_IOC_FSSETXATTR, &fsx);
+//    if (ret == -1) {
+//        PLOG(ERROR) << "Failed to set project id on " << path;
+//        return ret;
+//    }
     return 0;
 }
 
